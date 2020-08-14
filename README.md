@@ -42,3 +42,6 @@ Content Index
 
 ## <a name="technology"></a> Technology
   Used HTML5, CSS3, Javascript, Jquery and calls via Ajax by $ .get ().
+
+## <a name="license"></a>License
+  COVID19-PA is released under the [MIT License](https://opensource.org/licenses/MIT).
