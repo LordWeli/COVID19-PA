@@ -1,0 +1,46 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  box-sizing: border-box;
+  display: flex;
+  align-items: top;
+  justify-content: center;
+}
+
+h2 {
+  font: 500 1.6rem Archivo;
+  text-align: center;
+}
+
+th, td, p {
+  font-family: Archivo;
+}
+
+#div_case_table {
+  max-width: 900px;
+  float: left;
+  padding: 10px;
+}
+
+#div_total_cases {
+  max-width: 900px;
+  float: right;
+  padding: 10px;
+}
+
+footer {
+  position: fixed;
+  height: 35px;
+  width: 100%;
+  bottom: 0px;
+  color: #1d0b10;
+  background-color: #f2f2f2;
+}
+
+footer>span {
+  font-size: 15px;
+  padding: 5px 5px 5px 0px;
+  float: right;
+}

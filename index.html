@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br, en">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Mapeamento de casos de Covid-19 no Pará</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/table.css">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css"/>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&amp;" rel="stylesheet">
+  </head>
+  <body>
+    <div id="div_case_table">
+      <h2>Número de casos por cidades</h2>
+      <table id="covid_cases" class="table table-bordered table-striped table-sm">
+        <thead>
+          <tr>
+            <th>Cidade</th>
+            <th>Casos confirmados</th>
+            <th>Mortes</th>
+            <th>População estimada no ano (2019)</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="div_total_cases">
+      <h2>Número total de casos</h2>
+      <table id="covid_total_cases" class="table table-bordered table-striped table-sm">
+        <thead>
+          <tr>
+            <th>Casos confirmados</th>
+            <th>Mortes</th>
+            <th>Data do último caso</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+    <footer>
+      <span> 2020 - 2020 Wesley Nogueira </span>
+    </footer>
+  </body>
+</html>
+
+<script>
+  $.get( "https://brasil.io/api/dataset/covid19/caso/data?is_last=True&state=PA", function(data) {
+    var total_cases = [];
+    var data_results = $.grep(data.results, function(result){
+      if(result.city == null){
+        total_cases.push(result);
+      }
+      return result.city != null;
+    }).map(function(init_result){
+      return [init_result.city,
+      init_result.confirmed,
+      init_result.deaths,
+      init_result.estimated_population_2019];
+    });
+
+    createTable('covid_cases', data_results);
+    totalCases(total_cases);
+  });
+
+  function totalCases(total_cases){
+    var total = total_cases.map(function(data){
+      return [data.confirmed, data.deaths, formatDate(data.date.toString())];
+    });
+    createTable('covid_total_cases', total);
+  }
+
+  function createTable(id, data){
+    $(`#${id}`).DataTable({
+      data: data,
+      "searching": false,
+      "info": false,
+      "lengthChange": false,
+      "language": {
+        "infoEmpty": "Sem resultados",
+        "paginate": {
+          "previous": "Anterior",
+          "next": "Próxima"
+        }
+      }
+    });
+  }
+  
+  function formatDate(result_date){
+    var date = new Date(result_date);
+    var day = date.getDate() + 1;
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+
+    if(day < 10){
+      day = '0' + day;
+    }
+    if(month < 10){
+      month = '0' + month;
+    }
+    return current_date = day + '/' + month + '/' + year;
+  }
+
+  function parseString(param){
+    if(param == null){
+      return ''
+    }
+    else{
+      return param
+    }
+  }
+</script>
