@@ -52,7 +52,7 @@
 </html>
 
 <script>
-  $.get( "https://brasil.io/api/dataset/covid19/caso/data?is_last=True&state=PA", function(data) {
+  $.get( "https://brasil.io/api/v1/dataset/covid19/caso/data/?is_last=True&state=PA", function(data) {
     var total_cases = [];
     var data_results = $.grep(data.results, function(result){
       if(result.city == null){
